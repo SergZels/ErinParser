@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/htmx.org@2.0.3"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body {
+            background-image: url("https://cdn.prod.website-files.com/5e0f1144930a8bc8aace526c/65f1140d2a9c10d11649869c_65f0fa7bf851c380feef3ac4-20dc4fbb361a360565ae9095da2b5e59.jpeg");
+            background-size: cover; /* Розтягуємо зображення, щоб воно покривало весь екран  https://cdn.mos.cms.futurecdn.net/G7CHocPDfEqzHbxVZiVNjA-1200-80.jpg*/
+            background-position: center; /* Вирівнюємо зображення по центру */
+            background-repeat: no-repeat; /* Відключаємо повторення зображення */
+
+            height: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: white;
+        }
+
+        .navbar {
+            width: 99%;
+            margin-left: 5px ;
+            border: 3px solid #37a996;
+            opacity: 0.95;
+            border-radius: 5px;
+            padding: 15px;
+            overflow-x: auto;
+        }
+        .parser {
+            width: 100%;
+            min-height: 100vh;
+            margin-left: 1px ;
+            margin-top: 20px;
+            border: 3px solid #37a996;
+            background-color:#f7f4f4;
+            border-radius: 5px;
+            padding: 15px;
+            overflow-x: auto;
+
+            opacity: 0.95; /* Напівпрозорість */
+        }
+        .clients,p{
+        color:black;
+        }
+    </style>
+</head>
+<body x-data="{ open: false }">
+    <!-- Навігаційна панель -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #369cea;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Parser</a>
+            <button type="button" class="btn btn-success" id="startButton"
+             x-on:click="open = true"
+             hx-get="/parser"
+             hx-swap="outerHTML"
+             hx-target="#target"
+
+            >Start</button>
+        </div>
+    </nav>
+
+    <!-- Основний контент -->
+    <div class="container">
+        <div class="parser">
+            <div id="target" class="clients">
+                   <div x-show="open">
+                     <div  class="spinner-border text-info" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                     </div>
+                       Whait...
+                    </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+
+</body>
+</html>

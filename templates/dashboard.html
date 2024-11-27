@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parser Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+    }
+    .header {
+      background-color: #6200ea;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .form-group {
+      margin-bottom: 15px;
+      padding-right: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .button {
+      padding: 10px 20px;
+      background-color: #6200ea;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .button:hover {
+      background-color: #3700b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Parser Dashboard</h1>
+  </div>
+  <div class="container">
+    <div class="form-group">
+      <label for="dataInput">Enter Data:</label>
+      <input type="text" id="dataInput" placeholder="Enter data to parse">
+    </div>
+    <button class="button" id="downloadBtn">Download CSV</button>
+      <div id="loader" style="display: none; margin-top: 20px;">
+        <h5>Generating CSV... Please wait.</h5>
+      </div>
+  </div>
+<script>
+  document.getElementById('downloadBtn').addEventListener('click', async () => {
+    const data = document.getElementById('dataInput').value;
+    const loader = document.getElementById('loader');
+
+    function validateInput(input) {
+     if (!input || input.trim() === '') {
+      alert('Please enter valid data.');
+      return false;
+     }
+     return true;
+   }
+
+  // Виконати валідацію
+  if (!validateInput(data)) {
+    return; // Завершити, якщо дані не валідні
+  }
+
+    try {
+
+      loader.style.display = 'block';
+      const response = await fetch('http://192.168.1.250:7000/generate-csv', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ input_data: data }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch the CSV file');
+      }
+      const blob = await response.blob();
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.setAttribute('download', 'parsed_data.csv');
+      link.click();
+    } catch (error) {
+      console.error('Error fetching CSV:', error);
+      alert('An error occurred while downloading the CSV file.');
+    } finally {
+      loader.style.display = 'none';
+    }
+  });
+</script>
+
+</body>
+</html>
