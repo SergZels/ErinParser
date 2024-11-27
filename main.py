@@ -24,7 +24,7 @@ async def resumes(request: Request):
 @app.post("/generate-csv")
 async def generate_csv(input_data: dict):
     try:
-        time.sleep(5)
+        time.sleep(1)
         data = input_data.get("input_data")
         if not data:
             raise HTTPException(status_code=400, detail="No input data provided")

@@ -87,7 +87,7 @@
     try {
 
       loader.style.display = 'block';
-      const response = await fetch('http://192.168.1.250:7000/generate-csv', {
+      const response = await fetch('/generate-csv', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
